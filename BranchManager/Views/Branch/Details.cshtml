@@ -1,0 +1,70 @@
+﻿@model BranchManager.ViewModels.BranchDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<div class="panel panel-default panel-design">
+    <h2 class="panel-heading">Details</h2>
+    <ul class="details-ul">
+        <li>@Model.Branch.Name</li>
+        <li>@Model.Branch.Address</li>
+    </ul>
+
+    <div class="row">
+        <div class="panel panel-info col-md-7 panel-design">
+            <div class="panel-heading">All Products</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.AllProducts)
+                    {
+                        <tr>
+                            <td>@product.Title</td>
+                            <td>@product.Description</td>
+                            <td><button data-product-id="@product.Id" class="ToggleAddToBranch glyphicon btn @(Model.Branch.Product.Any(p => p.Id == product.Id) ? "glyphicon-check btn-info" : "glyphicon-download-alt btn-default")"></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".ToggleAddToBranch").click(function (e) {
+                var button = $(e.target);
+                if(button.hasClass("btn-default")){
+                    $.post("/api/Branch", {BranchId: @Model.Branch.Id, ProductId: button.attr("data-product-id")})
+                        .done(function(){
+                            button.removeClass("btn-default").removeClass("glyphicon-download-alt").addClass("btn-info").addClass("glyphicon-check");
+                        })
+                        .fail(function(){
+                            alert("Something failed");
+                        });
+                }else{
+                    $.ajax({
+                        url: "/api/Branch",
+                        method: "DELETE",
+                        data: JSON.stringify({BranchId: @Model.Branch.Id, ProductId: button.attr("data-product-id")})
+                    })
+                    .done(function(){
+                        button.removeClass("btn-info").removeClass("glyphicon-check").addClass("btn-default").addClass("glyphicon-download-alt");
+                    })
+                    .fail(function(){
+                        alert("Something went wrong");
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,28 @@
+﻿@model BranchManager.ViewModels.AssociateViewModel
+
+
+<h2>Products</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.AllProducts)
+        {
+            <tr>
+                <td>@product.Title</td>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td><a href="@Url.Action("EditProduct", "Product", new { Id = product.Id})">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+
+
+   
+</table>

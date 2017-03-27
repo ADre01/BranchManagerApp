@@ -1,0 +1,14 @@
+﻿@model BranchManager.ViewModels.AssociateViewModel
+@{
+    ViewBag.Title = "View Branches";
+}
+
+<div class="well well-design">
+    <h2 class="heading">View Branches</h2>
+    <ul>
+        @foreach (var branch in Model.AllBranches)
+        {
+            <li><a href="@Url.Action("Details", "Branch", new { id = branch.Id})">@branch.Name</a></li>
+        }
+    </ul>
+</div>

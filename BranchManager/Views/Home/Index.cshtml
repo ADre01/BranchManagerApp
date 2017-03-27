@@ -1,0 +1,17 @@
+﻿@model BranchManager.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="well">
+    <h2 class="heading">Current Branches</h2>
+
+
+    <ul class="details-ul">
+        @foreach (var branch in Model.Branch)
+        {
+            <li><a href="@Url.Action("Details", "Branch", new { id = branch.Id})">@branch.Name</a></li>
+        }
+    </ul>
+</div>
+

@@ -1,0 +1,28 @@
+﻿@model BranchManager.ViewModels.BranchFormViewModel
+@{
+    ViewBag.Title = "BranchForm";
+}
+
+<h2>@Model.Heading</h2>
+
+
+@using (Html.BeginForm("CreateBranch", "Branch"))
+{
+    <p class="alert alert-info">All fields are <strong>Required</strong></p>
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address)
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Address)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
